@@ -21,16 +21,24 @@
 			<img id="wisp" src="wisp.png" alt="a tired dragon holding coffee" onclick="javascript:wispBoop()">
 		</div>
 		<div class="rw-footer">
-			Site by <a style="text-decoration: none;" href="https://www.reveriewisp.com/">Reverie Wisp</a>, art by <a href="http://askdrakomod.tumblr.com">Drako</a>
+			<span id="flips"></span>Site by <a style="text-decoration: none;" href="https://www.reveriewisp.com/">Reverie Wisp</a>, art by <a href="http://askdrakomod.tumblr.com">Drako</a>
 		</div>
 	</body>
 
 
 	<script type="text/javascript">
-	// Start with a resize.
+	// Initialize variables. Grap flips from memory if necessary.
 	var targetHeight = 0;
 	var baseRotation = 0;
 	var rotationMod = 0;
+	var flipCount = 0;
+	var flipCountStart = parseInt(sessionStorage.getItem('wisp-flips'));
+	if(!flipCountStart)
+		flipCountStart = 0;
+	else 
+		flipCount = flipCountStart;
+
+	// Resize
 	wispResize();
 
 	// Add resize listener
@@ -49,6 +57,11 @@
 	// Spin it to win it!
 	function wispBoop() {
 		rotationMod += 20;
+		flipCount += 1;
+		if(flipCount > flipCountStart) {
+			document.getElementById("flips").innerHTML = "(flips: " + flipCount + ") ";
+			sessionStorage.setItem('wisp-flips', flipCount);
+		}
 	}
 
 	// Every 5ms, update the sway of wisp.
