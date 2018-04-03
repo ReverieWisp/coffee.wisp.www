@@ -14,7 +14,11 @@
 		<link rel="icon" href="favicon.ico" type="image/gif" sizes="32x32">
 	</head>
 
-	<!-- Firebase testing. I know it's public, don't ruin this for everyone please! -->
+	<!-- Firebase testing! I know it's public, just playing around.
+	Please don't ruin this for everyone by creating oodles of fake 
+	boops / modifying database values - I'm fully aware of what can be 
+	done, and if it's abused i'll have to disconnect aspects of this. 
+	I'm just playing with firebase, and this isn't a serious site ^^; -->
 	<script src = "https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -56,7 +60,11 @@
 	var flipsGlobal = 0;
 	var flipCountStart = parseInt(sessionStorage.getItem('wisp-flips'));
 
-	// Forebase stuff. I know it's public, please don't ruin this for everyone since this is just me playing around!
+	/* Firebase testing! I know it's public, just playing around.
+	Please don't ruin this for everyone by creating oodles of fake 
+	boops / modifying database values - I'm fully aware of what can be 
+	done, and if it's abused i'll have to disconnect aspects of this. 
+	I'm just playing with firebase, and this isn't a serious site ^^; */
 	var firebaseRef = new Firebase('https://wisp-coffee.firebaseio.com/'); 
 	var spinsRef = firebaseRef.child("flips");
 
