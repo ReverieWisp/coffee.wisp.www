@@ -29,6 +29,7 @@ body {
 .rw-content img {
 	max-height: 90%;
 	max-width:85%;
+	user-select: none;
 }
 .rw-footer {
 	position: absolute;

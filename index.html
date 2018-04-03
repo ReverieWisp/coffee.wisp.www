@@ -14,6 +14,9 @@
 		<link rel="icon" href="favicon.ico" type="image/gif" sizes="32x32">
 	</head>
 
+	<!-- Firebase testing. Don't ruin this for everyone, I know it's public. -->
+	<script src = "https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<!-- I added this out of curiosity. -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-86495827-2"></script>
@@ -42,16 +45,20 @@
 	var baseRotation = 0;
 	var rotationMod = 0;
 	var flipCount = 0;
+	var flipsToPush = 0;
+	var flipsGlobal = 0;
 	var flipCountStart = parseInt(sessionStorage.getItem('wisp-flips'));
+	var firebaseRef = new Firebase('https://wisp-coffee.firebaseio.com/');
+	var spinsRef = firebaseRef.child("flips");
+
+	// Configure starting flips
 	if(!flipCountStart)
 		flipCountStart = 0;
 	else 
 		flipCount = flipCountStart;
 
-	// Resize
+	// Resize and add resize listener
 	wispResize();
-
-	// Add resize listener
 	window.addEventListener("resize", wispResize);
 
 	// Resizes wisp to be at the correct height, and at the correct location too.
@@ -64,17 +71,34 @@
 		document.getElementById("wisp").style.transform = "rotate(" + (baseRotation + Math.sin(Date.now() / 1220) * 4) + "deg)";
 	}
 	
-	// Spin it to win it!
+	// Spin it to win it! Boop wisp pls.
 	function wispBoop() {
 		rotationMod += 20;
 		flipCount += 1;
-		if(flipCount > flipCountStart) {
-			document.getElementById("flips").innerHTML = "(flips: " + flipCount + ") ";
-			sessionStorage.setItem('wisp-flips', flipCount);
-		}
+		flipsToPush += 1;
+		sessionStorage.setItem('wisp-flips', flipCount);
+		updateFlipText();
 	}
 
-	// Every 5ms, update the sway of wisp.
+	// Updates the flips text in the flips span accordingly.
+	function updateFlipText(callback) {
+		if(flipCount > flipCountStart)
+			document.getElementById("flips").innerHTML = "[Your flips: " + flipCount + ", Global flips: " + flipsGlobal + "]<br/>";
+	}
+
+	// Get the value of flips from firebase, and update accordingly.
+	function updateGlobalFlips(callback) {
+		firebaseRef.child("flips").on("value", function(flipsSnapshot) {
+			flipsGlobal = flipsSnapshot.val();
+		});
+
+		if(callback)
+			callback();
+	}
+
+	// Every 5ms, update the sway of wisp! Other visual effects should go here too.
+	// To do: 5ms is pretty frequent. Consider making this a lot less frequet but 
+	// using CSS animations or similar.
 	setInterval(function() {
 		if(rotationMod > 0) {
 			rotationMod *= .9;
@@ -83,5 +107,23 @@
 
 		wispResize();
 	}, 5);
+
+
+	// Firebase updating. Since this is all event-driven largely, it's totally
+	// possible that firebase misses a click, but we don't really mind in this case.
+	// Also, with latency that's worse than 2 seconds to finish this transaction,
+	// the value of flipsToPush can be double-counted.
+	updateGlobalFlips(updateFlipText);
+	setInterval(function() {
+		if(flipsToPush > 0) {
+			spinsRef.transaction(function(flips) {
+				return flips + flipsToPush;
+			}).then(() => {
+				flipsToPush = 0;
+			});
+		}
+
+		updateGlobalFlips(updateFlipText);
+	}, 1000);
 	</script>
 </html>
