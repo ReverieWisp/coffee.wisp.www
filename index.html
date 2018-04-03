@@ -130,7 +130,7 @@
 
 	// Firebase updating. Since this is all event-driven largely, it's totally
 	// possible that firebase misses a click, but we don't really mind in this case.
-	// Also, with latency that's worse than 2 seconds to finish this transaction,
+	// Also, with latency that's worse than 1 second to finish this transaction,
 	// the value of flipsToPush can be double-counted.
 	setInterval(function() {
 		if(flipsToPush > 0) {
@@ -142,6 +142,6 @@
 		}
 
 		updateGlobalFlips(updateFlipText);
-	}, 1000);
+	}, 500);
 	</script>
 </html>
