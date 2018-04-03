@@ -14,11 +14,11 @@
 		<link rel="icon" href="favicon.ico" type="image/gif" sizes="32x32">
 	</head>
 
-	<!-- Firebase testing. Don't ruin this for everyone, I know it's public. -->
+	<!-- Firebase testing. I know it's public, don't ruin this for everyone please! -->
 	<script src = "https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<!-- I added this out of curiosity. -->
+	<!-- I added this out of curiosity! -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-86495827-2"></script>
 	<script>
 	  window.dataLayer = window.dataLayer || [];
@@ -41,17 +41,28 @@
 
 
 	<script type="text/javascript">
-	// Initialize variables. Grap flips from memory if necessary.
+	  ////////////////////////////
+	 // Initializing Varaibles //
+	////////////////////////////
 	var targetHeight = 0;
 	var baseRotation = 0;
 	var rotationMod = 0;
+
+	// Flips
 	var flipCount = 0;
 	var flipsToPush = 0;
 	var flipsGlobal = 0;
 	var flipCountStart = parseInt(sessionStorage.getItem('wisp-flips'));
-	var firebaseRef = new Firebase('https://wisp-coffee.firebaseio.com/');
+
+	// Forebase stuff. I know it's public, please don't ruin this for everyone since this is just me playing around!
+	var firebaseRef = new Firebase('https://wisp-coffee.firebaseio.com/'); 
 	var spinsRef = firebaseRef.child("flips");
 
+
+
+	  //////////////////////////
+	 // During loading setup //
+	//////////////////////////
 	// Configure starting flips
 	if(!flipCountStart)
 		flipCountStart = 0;
@@ -62,6 +73,14 @@
 	wispResize();
 	window.addEventListener("resize", wispResize);
 
+	// Look up global flips to set value.
+	updateGlobalFlips(updateFlipText);
+
+
+
+	  /////////////////////////////
+	 // Functions and Intervals //
+	/////////////////////////////
 	// Resizes wisp to be at the correct height, and at the correct location too.
 	function wispResize() {
 		targetHeight = window.innerHeight
@@ -109,12 +128,10 @@
 		wispResize();
 	}, 5);
 
-
 	// Firebase updating. Since this is all event-driven largely, it's totally
 	// possible that firebase misses a click, but we don't really mind in this case.
 	// Also, with latency that's worse than 2 seconds to finish this transaction,
 	// the value of flipsToPush can be double-counted.
-	updateGlobalFlips(updateFlipText);
 	setInterval(function() {
 		if(flipsToPush > 0) {
 			spinsRef.transaction(function(flips) {
