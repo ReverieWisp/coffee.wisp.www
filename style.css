@@ -24,7 +24,7 @@ body {
 	padding-top: 3%;
 	max-width: 560px;
 	max-height: 96%;
-	transition: all .5s linear;
+	/* transition: all .5s linear; */
 }
 .rw-content img {
 	max-height: 90%;
