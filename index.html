@@ -1,106 +1,63 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<!-- Page config -->
 		<meta charset="UTF-8">
 		<title>Revere Wisp &#9749;</title>
 		<meta name="description" content="coffee for wisp pls">
 		<meta name="author" content="Reverie Wisp">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Links -->
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
-
-
-
-	<style type="text/css">
-		/* Existing page sections */
-		html {
-			height: 100%;
-			box-sizing: border-box;
-		}
-
-		*,
-		*:before,
-		*:after {
-			box-sizing: inherit;
-		}
-
-		body {
-			position: relative;
-			margin: 0;
-			padding-bottom: 3rem;
-			min-height: 100%;
-			background-image: url("confectionary.png");
-		}
-
-
-		/* Custom sections */
-		.rw-content {
-			text-align: center;
-			margin: 0 auto;
-			padding-top: 3%;
-			max-width: 560px;
-			max-height: 96%;
-			transition: all .5s linear;
-		}
-
-		.rw-content img {
-			max-height: 90%;
-			max-width:85%;
-		}
-
-		.rw-footer {
-			position: absolute;
-			right: 0;
-			bottom: 0;
-			left: 0;
-			padding: 1rem;
-			text-decoration: none;
-			font-family: 'Open Sans', sans-serif;
-			color: rgb(180, 180, 180);
-			text-align: right;
-			font-size: .8em;
-		}
-
-		.rw-footer a {
-			text-decoration: none;
-			color: rgb(180, 130, 180);	
-		}
-	</style>
 
 
 
 	<body class="rw-content">
 		<div class="rw-wisp">
-			<img id="wisp" src="wisp.png" alt="a tired dragon holding coffee" onclick="">
+			<img id="wisp" src="wisp.png" alt="a tired dragon holding coffee" onclick="javascript:wispBoop()">
 		</div>
 		<div class="rw-footer">
 			Site by <a style="text-decoration: none;" href="https://www.reveriewisp.com/">Reverie Wisp</a>, art by <a href="http://askdrakomod.tumblr.com">Drako</a>
 		</div>
 	</body>
 
+
 	<script type="text/javascript">
 	// Start with a resize.
+	var targetHeight = 0;
+	var baseRotation = 0;
+	var rotationMod = 0;
 	wispResize();
-	var targetHeight;
-	document.getElementById("wisp").style.maxHeight = Math.round(targetHeight * .8) + "px";
-	document.getElementById("wisp").style.transform = 0 + Math.sin(Date.now() / 1220) * 20;
 
 	// Add resize listener
 	window.addEventListener("resize", wispResize);
 
+	// Resizes wisp to be at the correct height, and at the correct location too.
 	function wispResize() {
 		targetHeight = window.innerHeight
 			|| document.documentElement.clientHeight
 			|| document.body.clientHeight;
+
+		document.getElementById("wisp").style.maxHeight = Math.round(targetHeight * .8) + "px";
+		document.getElementById("wisp").style.transform = "rotate(" + (baseRotation + Math.sin(Date.now() / 1220) * 4) + "deg)";
 	}
 	
+	// Spin it to win it!
 	function wispBoop() {
-
+		rotationMod += 20;
 	}
 
+	// Every 5ms, update the sway of wisp.
 	setInterval(function() {
-	    document.getElementById("wisp").style.maxHeight = Math.round(targetHeight * .8) + "px";
-	    document.getElementById("wisp").style.transform = "rotate(" + (0 + Math.sin(Date.now() / 1220) * 4) + "deg)";
+		if(rotationMod > 0) {
+			rotationMod *= .9;
+			baseRotation += rotationMod;
+		}
+
+		wispResize();
 	}, 5);
 	</script>
 </html>
