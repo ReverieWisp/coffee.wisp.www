@@ -24,7 +24,6 @@
 	  window.dataLayer = window.dataLayer || [];
 	  function gtag(){dataLayer.push(arguments);}
 	  gtag('js', new Date());
-
 	  gtag('config', 'UA-86495827-2');
 	</script>
 
@@ -34,7 +33,9 @@
 			<img id="wisp" src="wisp.png" alt="a tired dragon holding coffee" onclick="javascript:wispBoop()">
 		</div>
 		<div class="rw-footer">
-			<span id="flips"></span>Site by <a style="text-decoration: none;" href="https://www.reveriewisp.com/">Reverie Wisp</a>, art by <a href="http://askdrakomod.tumblr.com">Drako</a>
+			<span id="flips">Boop derg to help wake him up!</span><br/>
+			<span class="rw-smalltext"> Site by <a style="text-decoration: none;" href="https://www.reveriewisp.com/">Reverie Wisp</a>, art by <a style="text-decoration: none;" href="http://askdrakomod.tumblr.com">Drako</a></span><br/>
+			<span class="rw-smalltext">This site uses cookies!</span>
 		</div>
 	</body>
 
@@ -83,7 +84,7 @@
 	// Updates the flips text in the flips span accordingly.
 	function updateFlipText(callback) {
 		if(flipCount > flipCountStart)
-			document.getElementById("flips").innerHTML = "[Your flips: " + flipCount + ", Global flips: " + flipsGlobal + "]<br/>";
+			document.getElementById("flips").innerHTML = "Your flips: " + flipCount + " - Global flips: " + flipsGlobal;
 	}
 
 	// Get the value of flips from firebase, and update accordingly.
